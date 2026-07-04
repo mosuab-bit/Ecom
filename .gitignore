@@ -1,0 +1,12 @@
+.vs/
+bin/
+obj/
+*.user
+*.suo
+
+node_modules/
+dist/
+.angular/
+
+appsettings.Development.json
+.env
