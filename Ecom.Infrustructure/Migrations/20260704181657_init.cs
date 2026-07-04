@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace Ecom.Infrustructure.Data.Migrations
+namespace Ecom.Infrustructure.Migrations
 {
     /// <inheritdoc />
     public partial class init : Migration
@@ -65,6 +65,16 @@ namespace Ecom.Infrustructure.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Description", "Name" },
+                values: new object[] { 1, "test", "test" });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "CategoryId", "Description", "Name", "PriceTotal" },
+                values: new object[] { 1, 1, "Description for Product 1", "Product 1", 10.99m });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Photo_ProductId",

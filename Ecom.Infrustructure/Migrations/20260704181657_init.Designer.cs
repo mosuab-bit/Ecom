@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Ecom.Infrustructure.Data.Migrations
+namespace Ecom.Infrustructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260704164406_seedData")]
-    partial class seedData
+    [Migration("20260704181657_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,6 +44,14 @@ namespace Ecom.Infrustructure.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "test",
+                            Name = "test"
+                        });
                 });
 
             modelBuilder.Entity("Ecom.core.Entities.Product.Photo", b =>
