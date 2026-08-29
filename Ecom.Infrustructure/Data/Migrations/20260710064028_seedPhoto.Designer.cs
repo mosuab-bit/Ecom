@@ -3,16 +3,19 @@ using Ecom.Infrustructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Ecom.Infrustructure.Migrations
+namespace Ecom.Infrustructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260710064028_seedPhoto")]
+    partial class seedPhoto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,6 +74,14 @@ namespace Ecom.Infrustructure.Migrations
                     b.HasIndex("ProductId");
 
                     b.ToTable("Photo", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 3,
+                            ImageName = "test",
+                            ProductId = 1
+                        });
                 });
 
             modelBuilder.Entity("Ecom.core.Entities.Product.Product", b =>
@@ -94,10 +105,7 @@ namespace Ecom.Infrustructure.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<decimal>("NewPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("OldPrice")
+                    b.Property<decimal>("PriceTotal")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
@@ -113,8 +121,7 @@ namespace Ecom.Infrustructure.Migrations
                             CategoryId = 1,
                             Description = "Description for Product 1",
                             Name = "Product 1",
-                            NewPrice = 10.99m,
-                            OldPrice = 0m
+                            PriceTotal = 10.99m
                         });
                 });
 

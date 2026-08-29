@@ -15,14 +15,19 @@ namespace Ecom.Infrustructure.Data.Config
             builder.Property(x => x.Description)
                 .HasMaxLength(1000);
 
-            builder.Property(x => x.PriceTotal)
+            builder.Property(x => x.NewPrice)
                 .HasColumnType("decimal(18,2)");
+
+            builder.Property(x => x.OldPrice)
+                .HasColumnType("decimal(18,2)");
+
             builder.HasData(new Product
             {
                 Id = 1,
                 Name = "Product 1",
                 Description = "Description for Product 1",
-                PriceTotal = 10.99m,
+                NewPrice = 10.99m,
+                OldPrice = 0m,
                 CategoryId = 1
             });
 
