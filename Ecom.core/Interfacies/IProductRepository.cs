@@ -1,5 +1,6 @@
 ﻿using Ecom.core.DTO;
 using Ecom.core.Entities.Product;
+using Ecom.core.Sharing;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,5 +11,6 @@ namespace Ecom.core.Interfacies
     {
         Task<bool> AddAsync(AddProductDto productDto);
         Task<bool> UpdateAsync(UpdateProductDto updateProductDto);
+        Task<IEnumerable<ProductDto>> GetAllAsync(ProductParams productParams);
     }
 }

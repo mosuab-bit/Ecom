@@ -14,6 +14,8 @@ namespace Ecom.core.DTO
         public List<PhotoDto> Photos { get; set; } = new List<PhotoDto>();
         public decimal PriceTotal { get; set; }
         public string CategoryName { get; set; }
+        public decimal NewPrice { get; set; }
+        public decimal OldPrice { get; set; }
     }
 
     public record PhotoDto

@@ -3,6 +3,7 @@ using Ecom.core.DTO;
 using Ecom.core.Entities.Product;
 using Ecom.core.Interfacies;
 using Ecom.core.Services;
+using Ecom.core.Sharing;
 using Ecom.Infrustructure.Data;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,6 +23,68 @@ namespace Ecom.Infrustructure.Repositories
             this.mapper = mapper;
             this.imageManagementService = imageManagementService;
         }
+
+        public async Task<IEnumerable<ProductDto>> GetAllAsync(
+       ProductParams productParams)
+        {
+            // 1. Base query
+            var query = context.Products
+                .Include(p => p.Category)
+                .Include(p => p.Photos)
+                .AsNoTracking();
+
+            // 2. Exact filter: Category
+            if (productParams.CategoryId.HasValue)
+            {
+                query = query.Where(p =>
+                    p.CategoryId == productParams.CategoryId.Value);
+            }
+
+            // 3. Text search
+            if (!string.IsNullOrWhiteSpace(productParams.Search))
+            {
+                var words = productParams.Search.Split(
+                    ' ',
+                    StringSplitOptions.RemoveEmptyEntries |
+                    StringSplitOptions.TrimEntries
+                );
+
+                foreach (var word in words)
+                {
+                    query = query.Where(product =>
+                        product.Name.Contains(word) ||
+                        (product.Description != null &&
+                         product.Description.Contains(word))
+                    );
+                }
+            }
+
+            // 4. Sorting
+            query = productParams.Sort switch
+            {
+                "PriceAsc" =>
+                    query.OrderBy(p => p.NewPrice),
+
+                "PriceDesc" =>
+                    query.OrderByDescending(p => p.NewPrice),
+
+                _ =>
+                    query.OrderBy(p => p.Id)
+            };
+
+            // 5. Pagination
+            query = query
+                .Skip(productParams.pageSize *
+                      (productParams.PageNumber - 1))
+                .Take(productParams.pageSize);
+
+            // 6. Execute query
+            var products = await query.ToListAsync();
+
+            // 7. Mapping
+            return mapper.Map<List<ProductDto>>(products);
+        }
+
 
         public async Task<bool> AddAsync(AddProductDto productDto)
         {
